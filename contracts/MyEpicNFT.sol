@@ -8,6 +8,8 @@ import { Base64 } from "./libraries/Base64.sol";
 
 contract MyEpicNFT is ERC721URIStorage {
 
+    event NewEpicNFTMinted(address sender, uint256 tokenId);
+
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
@@ -75,6 +77,7 @@ contract MyEpicNFT is ERC721URIStorage {
             abi.encodePacked("data:application/json;base64,", json)
         );
         _safeMint(msg.sender, newItemId);
+        emit NewEpicNFTMinted(msg.sender, newItemId);
         _setTokenURI(newItemId, finalTokenUri);
         _tokenIds.increment();
         console.log("An NFT w/ ID %s has been minted to %s", newItemId, msg.sender);
